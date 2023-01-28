@@ -1,0 +1,11 @@
+[Unit]
+Description=Read SCD30 readings and saves them locally
+After=network-online.target
+
+[Service]
+User=pi
+Restart=always
+ExecStart=python3 /opt/co2-exporter/server.py
+
+[Install]
+WantedBy=multi-user.target

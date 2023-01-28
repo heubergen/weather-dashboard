@@ -1,0 +1,11 @@
+[Unit]
+Description=Read meteo api readings and save locally
+After=network-online.target
+
+[Service]
+User=pi
+Restart=always
+ExecStart=python3 /opt/meteo-exporter/server.py
+
+[Install]
+WantedBy=multi-user.targe
