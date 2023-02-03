@@ -36,18 +36,21 @@ if __name__ == '__main__':
             logging.debug('Download successful, continue with data processing')
             for row in csvReader:
                 if row['Station/Location'] == loc:
-                    tempp = row.get(temp)
-                    precp = row.get(prec)
-                    humip = row.get(humi)
-                    wspep = row.get(wspe)
-                    pressp = row.get(press)
+                    tempp = float(row.get(temp))
+                    precp = float(row.get(prec))
+                    humip = float(row.get(humi))
+                    wspep = float(row.get(wspe))
+                    pressp = float(row.get(press))
                     break
             lines = [tempp,precp,humip,wspep,pressp]
+            lines[0] = round((tempp * 1.8) + 32,2)
+            lines[1] = round(precp * 0.039,2)
+            lines[3] = round(wspep * 0.6214,2)
+            lines[4] = round(pressp / 33.864,2)
+                    
             logging.debug('Writing data into file')
             with open('/opt/meteo-exporter/data.txt', 'w') as f:
-                for line in lines:
-                    f.write(line)
-                    f.write('\n')
+                print('\n'.join(str(line) for line in lines),file=f)
         finally:
             logging.debug('Sleep until next data processing starts')
             time.sleep(900)

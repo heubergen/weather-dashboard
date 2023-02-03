@@ -22,23 +22,23 @@ do
         touch /var/www/html/index.html
 
         cat > /var/www/html/index.html <<- EOF
-        <!DOCTYPE html>
-        <html lang="en-US">
-                <head>
-                        <meta name="viewport" content="width=device-width, initial-scale=1">
-                        <meta charset="UTF-8">
-			<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
-                        <title>
-                                Weather Dasboard
-                        </title>
-                        <link rel="stylesheet" href="css/mystyle.css">
+	<!DOCTYPE html>
+	<html lang="en-US">
+		<head>
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<meta charset="UTF-8">
+                        <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+			<title>
+				Weather Dashboard
+			</title>
+			<link rel="stylesheet" href="css/mystyle.css">
 		</head>
 		<body>
 			<h1>
 				Indoor
 			</h1>
 			<div class="group">
-				<label for="intemp">Current temperatur:</label> <meter id="intemp" min="20" max="40" low="19" high="25" optimum="22" value="${ilines[1]}"></meter>
+				<label for="intemp">Current temperatur:</label> <meter id="intemp" min="59" max="100" low="66" high="77" optimum="72" value="${ilines[1]}"></meter>
 				<p class="infotext">
 					${ilines[1]}
 				</p>
@@ -59,13 +59,13 @@ do
 				Outdoor
 			</h1>
 			<div class="group">
-				<label for="temp">Current temperatur:</label> <meter id="temp" min="-25" max="45" low="5" high="30" optimum="20" value="${wlines[0]}"></meter>
+				<label for="temp">Current temperatur:</label> <meter id="temp" min="0" max="120" low="41" high="86" optimum="20" value="${wlines[0]}"></meter>
 				<p class="infotext">
 					${wlines[0]}
 				</p>
 			</div>
 			<div class="group">
-				<label for="prec">Current precipitation:</label> <meter id="prec" min="0" max="30" low="0" high="1" optimum="0.5" value="${wlines[1]}"></meter>
+				<label for="prec">Current precipitation:</label> <meter id="prec" min="0" max="1.17" low="0" high="0.039" optimum="0.0195" value="${wlines[1]}"></meter>
 				<p class="infotext">
 					${wlines[1]}
 				</p>
@@ -77,13 +77,13 @@ do
 				</p>
 			</div>
 			<div class="group">
-				<label for="wind">Current wind speed:</label> <meter id="wind" min="0" max="250" low="0" high="30" optimum="0" value="${wlines[3]}"></meter>
+				<label for="wind">Current wind speed:</label> <meter id="wind" min="0" max="155" low="0" high="19" optimum="0" value="${wlines[3]}"></meter>
 				<p class="infotext">
 					${wlines[3]}
 				</p>
 			</div>
 			<div class="group">
-				<label for="apre">Current air pressure:</label> <meter id="apre" min="800" max="1500" low="950" high="1200" optimum="1000" value="${wlines[4]}"></meter>
+				<label for="apre">Current air pressure:</label> <meter id="apre" min="23" max="45" low="28" high="36" optimum="29.5" value="${wlines[4]}"></meter>
 				<p class="infotext">
 					${wlines[4]}
 				</p>
