@@ -19,6 +19,10 @@ do
           icounter=$((icounter+1))
         done < $ifilename
 
+        pitempf=$(sudo /usr/bin/vcgencmd measure_temp | awk -F "[=']" '{print($2 * 1.8)+32}')
+        piload=$(cut -f 1 -d " " /proc/loadavg)
+        pimemory=$(awk '/MemFree/ { printf "%.0f \n", $2/1024 }' /proc/meminfo | sed 's/ *$//')
+
         touch /var/www/html/index.html
 
         cat > /var/www/html/index.html <<- EOF
@@ -88,6 +92,25 @@ do
 					${wlines[4]}
 				</p>
 			</div>
+                        <h1> DietPi </h1>
+                         <div class="group">
+                                <label for="temp">Current temperatur:</label> <meter id="pitemp" min="60" max="180" low="77" high="104" optimum="86" value="${pitempf}"></meter>
+                                <p class="infotext">
+                                        ${pitempf}
+                                </p>
+                        </div>
+                         <div class="group">
+                                <label for="temp">Current load:</label> <meter id="piload" min="0" max="2" low="0" high="0.5" optimum="0.2" value="${piload}"></meter>
+                                <p class="infotext">
+                                        ${piload}
+                                </p>
+                        </div>
+                         <div class="group">
+                                <label for="temp">Current free memory:</label> <meter id="pimemory" min="0" max="450" low="200" high="400" optimum="385" value="${pimemory}"></meter>
+                                <p class="infotext">
+                                        ${pimemory}
+                                </p>
+                        </div>
 		</body>
 	</html>
 	EOF
