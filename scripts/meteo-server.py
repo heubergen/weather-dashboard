@@ -2,7 +2,6 @@ from base64 import decode
 from io import StringIO
 import urllib.request
 import csv
-import time
 import logging
 
 # set settings, you usually only need to modify the next two variables
@@ -24,33 +23,31 @@ logging.basicConfig(
 
 if __name__ == '__main__':
     logging.info('Start program')
-    while True:
-        logging.debug('Downloading data')
-        try:
-            data = urllib.request.urlopen(download).read().decode('UTF-8')
-            dataFile = StringIO(data)
-            csvReader = csv.DictReader(dataFile, delimiter=';')
-        except:
-            logging.error('Downloading file failed, please check connection and download variable')
-        else:
-            logging.debug('Download successful, continue with data processing')
-            for row in csvReader:
-                if row['Station/Location'] == loc:
-                    tempp = float(row.get(temp))
-                    precp = float(row.get(prec))
-                    humip = float(row.get(humi))
-                    wspep = float(row.get(wspe))
-                    pressp = float(row.get(press))
-                    break
-            lines = [tempp,precp,humip,wspep,pressp]
-            lines[0] = round((tempp * 1.8) + 32,2)
-            lines[1] = round(precp * 0.039,2)
-            lines[3] = round(wspep * 0.6214,2)
-            lines[4] = round(pressp / 33.864,2)
-                    
-            logging.debug('Writing data into file')
-            with open('/opt/meteo-exporter/data.txt', 'w') as f:
-                print('\n'.join(str(line) for line in lines),file=f)
-        finally:
-            logging.debug('Sleep until next data processing starts')
-            time.sleep(900)
+    logging.debug('Downloading data')
+    try:
+        data = urllib.request.urlopen(download).read().decode('UTF-8')
+        dataFile = StringIO(data)
+        csvReader = csv.DictReader(dataFile, delimiter=';')
+    except:
+        logging.error('Downloading file failed, please check connection and download variable')
+    else:
+        logging.debug('Download successful, continue with data processing')
+        for row in csvReader:
+            if row['Station/Location'] == loc:
+                tempp = float(row.get(temp))
+                precp = float(row.get(prec))
+                humip = float(row.get(humi))
+                wspep = float(row.get(wspe))
+                pressp = float(row.get(press))
+                break
+        lines = [tempp,precp,humip,wspep,pressp]
+        lines[0] = round((tempp * 1.8) + 32,2)
+        lines[1] = round(precp * 0.039,2)
+        lines[3] = round(wspep * 0.6214,2)
+        lines[4] = round(pressp / 33.864,2)
+                
+        logging.debug('Writing data into file')
+        with open('/opt/meteo-exporter/data.txt', 'w') as f:
+            print('\n'.join(str(line) for line in lines),file=f)
+    finally:
+        logging.debug('End program')
