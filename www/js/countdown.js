@@ -10,7 +10,7 @@ for (let item of y) {
       // Calculate the difference between now and the count down date
       var distance = elementDate - Date.now();
 
-      // Time calculations for days, hours and minutes
+      // Time calculations for days, hours, and minutes
       var days = Math.floor(distance / (1000 * 60 * 60 * 24));
       var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
