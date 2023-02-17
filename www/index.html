@@ -8,14 +8,13 @@
 		Weather Dashboard
 	</title>
 	<link rel="stylesheet" href="css/mystyle.css">
-	<script defer src="js/countdown.js"></script>
 </head>
 <body>
 	<h1>
 		Indoor
 	</h1>
 	<div class="group">
-		<label for="intemp">Current temperatur:</label> <meter id="intemp" min="59" max="100" low="66" high="77" optimum="72" value="${ilines[1]}"></meter>
+		<label for="intemp">Current temperature:</label> <meter id="intemp" min="59" max="100" low="66" high="77" optimum="72" value="${ilines[1]}"></meter>
 		<p class="infotext">
 			${ilines[1]}
 		</p>
@@ -36,7 +35,7 @@
 		Outdoor
 	</h1>
 	<div class="group">
-		<label for="temp">Current temperatur:</label> <meter id="temp" min="0" max="120" low="41" high="86" optimum="20" value="${wlines[0]}"></meter>
+		<label for="temp">Current temperature:</label> <meter id="temp" min="0" max="120" low="41" high="86" optimum="20" value="${wlines[0]}"></meter>
 		<p class="infotext">
 			${wlines[0]}
 		</p>
@@ -67,7 +66,7 @@
 	</div>
 	<h1> DietPi </h1>
 	<div class="group">
-			<label for="temp">Current temperatur:</label> <meter id="pitemp" min="60" max="180" low="77" high="104" optimum="86" value="${pitempf}"></meter>
+			<label for="temp">Current temperature:</label> <meter id="pitemp" min="60" max="180" low="77" high="104" optimum="86" value="${pitempf}"></meter>
 			<p class="infotext">
 					${pitempf}
 			</p>
@@ -88,17 +87,17 @@
 		Countdowns
 	</h1>
 	<div class="group">
-		<label for="event1">Event 1</label> <p id="event1" data-time="2023-09-01" class="countdown"></p>
+		<label for="event1">Event 1</label> <p id="event1" class="countdown">${days[0]} days / ${weeks[0]} weeks</p>
 		<p class="infotext">
 		</p>
 	</div>
 	<div class="group">
-		<label for="event2">Event 2</label> <p id="event2" data-time="2025-09-01" class="countdown"></p>
+		<label for="event2">Event 2</label> <p id="event2" class="countdown">${days[1]} days / ${weeks[1]} weeks</p>
 		<p class="infotext">
 		</p>
 	</div>
 	<div class="group">
-		<label for="event3">Event 3</label> <p id="event3" data-time="2027-04-01" class="countdown"></p>
+		<label for="event3">Event 3</label> <p id="event3" class="countdown">${days[2]} days / ${weeks[2]} weeks</p>
 		<p class="infotext">
 		</p>
 	</div>
