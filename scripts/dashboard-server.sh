@@ -5,7 +5,6 @@ wfilename="/opt/meteo-exporter/data.txt"
 wcounter=0
 while read wline; do
 	wlines[wcounter]="$wline"
-	#echo "wlines[$wcounter] = ${wlines[wcounter]}"
 	wcounter=$((wcounter+1))
 done < $wfilename
 
@@ -13,7 +12,6 @@ ifilename="/opt/co2-exporter/data.txt"
 icounter=0
 while read iline; do
 	ilines[icounter]="$iline"
-	#echo "ilines[$icounter] = ${ilines[icounter]}"
 	icounter=$((icounter+1))
 done < $ifilename
 
