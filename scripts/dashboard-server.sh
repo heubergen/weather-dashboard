@@ -21,25 +21,36 @@ pimemory=$(awk '/MemFree/ { printf "%.0f \n", $2/1024 }' /proc/meminfo | sed 's/
 
 dates=('YYYY-MM-DD' 'YYYY-MM-DD' 'YYYY-MM-DD')
 now=$(date +'%Y-%m-%d')
+birth=('YYYY-MM-DD')
 count=0
 
-if [[ $OSTYPE == 'darwin'* ]]; then
-	for date in "${dates[@]}"; do
-		diff=$((`date -jf %Y-%m-%d $date +%s` - `date -jf %Y-%m-%d $now +%s`))
-		days[count]="$(($diff/ 86400))"
-		weeks[count]="$(($diff/ 604800))"
-		count=$(( $count + 1 ))
-	done
-elif [[ $OSTYPE == 'linux'* ]]; then
-	for date in "${dates[@]}"; do
-		let diff=(`date +%s -d $date`-`date +%s -d $now`)
-		days[count]="$(($diff/ 86400))"
-		weeks[count]="$(($diff/ 604800))"
-		count=$(( $count + 1 ))
-	done
+command_not_installed () {
+	echo "Please install $1 and make sure it's included in your PATH"
+	exit
+}
+
+if command -v bc &> /dev/null; then
+	:
 else
-	echo "OS not supported, please patch script"
+	command_not_installed bc
 fi
+
+if command -v datediff &> /dev/null; then
+	datediffcommand="datediff"
+elif command -v dateutils.ddiff &> /dev/null ; then
+	datediffcommand="dateutils.ddiff"
+else
+	command_not_installed dateutils
+fi
+for date in "${dates[@]}"; do
+	diff=$($datediffcommand $now $date)
+	diffbirth=$($datediffcommand $birth $date)
+	days[count]="$diff"
+	birthd[count]=$(($diffbirth / 365))
+	weekstmp=$(echo $diff/ 7 | bc -l)
+	weeks[count]=$(printf "%.1f" $weekstmp)
+	count=$(( $count + 1 ))
+done
 
 touch /var/www/html/index.html
 

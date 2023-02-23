@@ -15,3 +15,12 @@ label {
 p {
     margin: 0;
 }
+
+@media (max-width: 600px) {
+    .group {
+        font-size: 10px;
+    }
+    h1 {
+        font-size: large;
+    }
+}
