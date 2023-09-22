@@ -4,20 +4,11 @@ import logging
 import board
 import busio
 import adafruit_scd30
-from sqlite3 import connect as sqlconnect, Error as sqlerror
+from db import create_connection
 
 
 # connect to database
-def create_connection(path):
-	connection = None
-	try:
-		connection = sqlconnect(path)
-	except sqlerror as e:
-		print(f"The error '{e}' occurred")
-		
-	return connection
-
-connection = create_connection("data.sqlite")
+connection = create_connection()
 
 # SCD-30 has tempremental I2C with clock stretching, datasheet recommends
 # starting at 50KHz
@@ -38,17 +29,16 @@ def co2_read_data():
 	logging.debug('Start program')
 	logging.debug('Accessing metrics from sensor')
 	try:
+		temperature = round(scd.temperature)
 		CO2 = round(scd.CO2, 2)
-		temperature = scd.temperature
 		relative_humidity = round(scd.relative_humidity, 2)
-		lines = [CO2,temperature,relative_humidity]
+		lines = [temperature,CO2,relative_humidity]
 	except:
 		logging.error('Accessing metrics failed', exc_info=True)
 		raise ValueError()
 	else:
 		logging.debug('Accessing metrics successful, continue with data processing')
 		try:
-			pass
 			for line in lines:
 				sqlcount += 1
 				connection.execute('UPDATE indoor_data SET Value =\"' + str(line) + '\" WHERE ID = ' + str(sqlcount) + ';')
@@ -56,8 +46,6 @@ def co2_read_data():
 		except:
 			logging.error('There was an issue when writing to the database', exc_info=True)
 			raise ConnectionError()
-		finally:
-			connection.close()
 			
 		logging.debug('Database writing successful, ending program')
 			

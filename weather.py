@@ -5,20 +5,11 @@ from io import StringIO
 from urllib.request import urlopen
 from csv import DictReader
 import logging
-from sqlite3 import connect as sqlconnect, Error as sqlerror
+from db import create_connection
 
 
 # connect to database
-def create_connection(path):
-	connection = None
-	try:
-		connection = sqlconnect(path)
-	except sqlerror as e:
-		print(f"The error '{e}' occurred")
-		
-	return connection
-
-connection = create_connection("data.sqlite")
+connection = create_connection()
 
 # set settings, you usually only need to modify the next two variables
 loc = 'KLO' # the location you want to read the data out, download https://data.geo.admin.ch/ch.meteoschweiz.messnetz-automatisch/ch.meteoschweiz.messnetz-automatisch_en.csv and add the Abbreviation here
@@ -32,7 +23,7 @@ wspe = 'fu3010z0' # the column name where the wind speed can be found
 press = 'prestas0' # the column name where the air pressure can be found
 # logging settings
 logging.basicConfig(
-	filename='/var/log/meteo-exporter.log',
+	filename='/Users/patrickalbrecht/weather-dashboard-gitmeteo-exporter.log',
 	encoding='utf-8',
 	level=logging.INFO,
 	format='%(asctime)s %(levelname)-8s %(message)s')
@@ -69,8 +60,6 @@ def weather_read_data():
 		except:
 			logging.error('There was an issue when writing to the database', exc_info=True)
 			raise ConnectionError()
-		finally:
-			connection.close()
 			
 		logging.debug('Database writing successful, ending program')
 		
